@@ -1,7 +1,5 @@
 package com.estacionamento.api.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -17,18 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estacionamento.api.exceptions.AuthError;
 import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Estacionamento;
 import com.estacionamento.api.model.dto.EstacionamentoPutDto;
-import com.estacionamento.api.repository.EstacionamentoRepository;
 import com.estacionamento.api.service.EstacionamentoServices;
 
 @RestController
 @RequestMapping("/estacionameto")
 public class EstacionamentoController {
-	
-	@Autowired
-	private EstacionamentoRepository estacionamentoRep;
 	
 	@Autowired
 	private EstacionamentoServices estacionamentoServ;
@@ -39,19 +34,19 @@ public class EstacionamentoController {
 		estacionamentoServ.cadEstacionamento.execute(estacionamento);
 	}
 	
-	@GetMapping()
-	public List<Estacionamento> ListEstacionamento() {
-		return estacionamentoRep.findAll();
+	@GetMapping("/{id}")
+	public Estacionamento ListEstacionamento(@PathVariable Long id) throws AuthError {
+		return estacionamentoServ.getEstacionamento.execute(id);
 	}
 	
 	@Transactional
 	@PutMapping("/{id}")
-	public void UpdateEstacionamento(@Valid @RequestBody EstacionamentoPutDto estacionamentoPut, @PathVariable Long id ) throws BussinesError {
+	public void UpdateEstacionamento(@Valid @RequestBody EstacionamentoPutDto estacionamentoPut, @PathVariable Long id ) throws BussinesError, AuthError {
 		estacionamentoServ.attEstacionamento.execute(estacionamentoPut, id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void DelEstacionamento(@Valid @PathVariable Long id) throws BussinesError {
+	public void DelEstacionamento(@Valid @PathVariable Long id) throws BussinesError, AuthError {
 		estacionamentoServ.deleteEstacionamento.execute(id);
 	}
 	

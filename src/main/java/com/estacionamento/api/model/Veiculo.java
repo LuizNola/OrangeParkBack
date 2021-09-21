@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Veiculo {
 	
@@ -39,6 +41,7 @@ public class Veiculo {
 	@NotNull(message = "Tipo não pode ser nulo")
 	private VeiculoType tipo;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_estacionamento")
 	private Estacionamento estacionamento;

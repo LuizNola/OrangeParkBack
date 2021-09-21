@@ -1,7 +1,14 @@
 package com.estacionamento.api.model;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +27,10 @@ public class Estacionamento {
 	
 	@Column()
 	private String token;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
 
 	@Column(nullable = false)
 	@NotNull(message = "Campo nome não pode ser vazio")
@@ -75,6 +86,14 @@ public class Estacionamento {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+	
+	public Set<PerfilType> getPerfis() {
+		return perfis.stream().map(x -> PerfilType.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addPerfil(PerfilType perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	public String getNome() {

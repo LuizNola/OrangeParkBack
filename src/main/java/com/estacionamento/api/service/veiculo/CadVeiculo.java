@@ -3,12 +3,15 @@ package com.estacionamento.api.service.veiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.estacionamento.api.exceptions.AuthError;
 import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Estacionamento;
+import com.estacionamento.api.model.PerfilType;
 import com.estacionamento.api.model.Veiculo;
 import com.estacionamento.api.repository.EstacionamentoRepository;
 import com.estacionamento.api.repository.VeiculoRepository;
-import com.estacionamento.api.service.ultils.CheckEstacionamento;
+import com.estacionamento.api.security.UserSS;
+import com.estacionamento.api.service.ultils.UserLoginService;
 
 @Service
 public class CadVeiculo {
@@ -20,11 +23,16 @@ public class CadVeiculo {
 	private EstacionamentoRepository estacionamentoRep;
 	
 	@Autowired
-	private CheckEstacionamento CEstacionamento;
+	private UserLoginService userLoginServ;	
 	
-	public void execute(Veiculo veiculo, Long id) throws BussinesError {
+	public void execute(Veiculo veiculo, Long id) throws BussinesError, AuthError {
 		
-		CEstacionamento.execute(id);
+		UserSS user = userLoginServ.authenticated();
+		
+		if(user == null || !user.hasHole(PerfilType.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthError("Não autorizado");
+		}
+		
 		
 		Estacionamento estacionamento = estacionamentoRep.getById(id);
 
