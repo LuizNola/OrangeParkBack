@@ -30,7 +30,7 @@ public class EstacionamentoController {
 	
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void CreateEstacionamento(@Valid @RequestBody Estacionamento estacionamento) {
+	public void CreateEstacionamento(@Valid @RequestBody Estacionamento estacionamento) throws BussinesError {
 		estacionamentoServ.cadEstacionamento.execute(estacionamento);
 	}
 	

@@ -33,9 +33,8 @@ public class CadVeiculo {
 			throw new AuthError("Não autorizado");
 		}
 		
-		
 		Estacionamento estacionamento = estacionamentoRep.getById(id);
-
+		
 		switch (veiculo.getTipo()) {
 		case Moto:
 			if(estacionamento.getQtd_motos_atual() >= estacionamento.getQtd_motos_max()) {

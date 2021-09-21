@@ -18,6 +18,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Estacionamento {
 
@@ -25,11 +27,9 @@ public class Estacionamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column()
-	private String token;
-	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="PERFIS")
+	@JsonIgnore	
 	private Set<Integer> perfis = new HashSet<>();
 
 	@Column(nullable = false)
@@ -44,8 +44,9 @@ public class Estacionamento {
 	@Column(nullable = false)
 	@Size(min = 2, message = "A sua senha e curta de mais")
 	@NotNull(message = "Campo senha não pode ser vazio")
+	
 	private String senha;
-
+ 
 	@Column(nullable = false)
 	@NotNull(message = "Campo cidade não pode ser vazio")
 	private String cidade;
@@ -78,14 +79,6 @@ public class Estacionamento {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 	
 	public Set<PerfilType> getPerfis() {

@@ -1,5 +1,7 @@
 package com.estacionamento.api.service.ultils;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,13 +21,13 @@ public class UserDetailsServiceImp implements UserDetailsService{
 	@Override 
 	public UserDetails loadUserByUsername(String cnpj) throws UsernameNotFoundException {
 	
-		Estacionamento estacionamento = estacionamentoRep.FindByCnpj(cnpj);
+		Optional<Estacionamento> estacionamento = estacionamentoRep.FindByCnpj(cnpj);
 
-		if(estacionamento == null) {
+		if(estacionamento.get() == null) {
 			throw new UsernameNotFoundException("Usuario não encontrado");
 		}
-		System.out.println("UserDetailsService: " + estacionamento.getId());
-		return new UserSS(estacionamento.getId(), estacionamento.getCnpj(), estacionamento.getSenha(), estacionamento.getPerfis());
+		System.out.println("UserDetailsService: " + estacionamento.get().getId());
+		return new UserSS(estacionamento.get().getId(), estacionamento.get().getCnpj(), estacionamento.get().getSenha(), estacionamento.get().getPerfis());
 	}
 	
 }

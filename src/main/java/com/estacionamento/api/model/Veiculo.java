@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,10 +36,11 @@ public class Veiculo {
 	
 	@Column(nullable = false)
 	@NotNull(message = "Placa não pode ser nulo")
+	@Pattern(regexp = "[A-Z]{3}[0-9][0-9A-Z][0-9]{2}", message = "Placa necessita do padrão mercosul")
 	private String placa;
 	
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "Tipo não pode ser nulo")
+	@NotNull(message = "Tipo do veiculo não pode ser nulo")
 	private VeiculoType tipo;
 	
 	@JsonIgnore
