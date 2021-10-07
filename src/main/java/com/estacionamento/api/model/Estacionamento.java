@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
 public class Estacionamento {
 
@@ -44,7 +45,6 @@ public class Estacionamento {
 	@Column(nullable = false)
 	@Size(min = 2, message = "A sua senha e curta de mais")
 	@NotNull(message = "Campo senha não pode ser vazio")
-	
 	private String senha;
  
 	@Column(nullable = false)
@@ -62,16 +62,19 @@ public class Estacionamento {
 	@Column(nullable = false)
 	@PositiveOrZero(message = "Quantidade de vagas de moto invalida")
 	private Integer qtd_motos_max;
-
-	@Column(nullable = false)
-	private Integer qtd_motos_atual;
 	
 	@Column(nullable = false)
 	@PositiveOrZero(message = "Quantidade de vagas de carros invalida")
 	private Integer qtd_carros_max;
+
+
+	public Set<PerfilType> getPerfis() {
+		return perfis.stream().map(x -> PerfilType.toEnum(x)).collect(Collectors.toSet());
+	}
 	
-	@Column(nullable = false)
-	private Integer qtd_carros_atual;
+	public void addPerfil(PerfilType perfil) {
+		perfis.add(perfil.getCod());
+	}
 
 	public Long getId() {
 		return id;
@@ -79,14 +82,6 @@ public class Estacionamento {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public Set<PerfilType> getPerfis() {
-		return perfis.stream().map(x -> PerfilType.toEnum(x)).collect(Collectors.toSet());
-	}
-	
-	public void addPerfil(PerfilType perfil) {
-		perfis.add(perfil.getCod());
 	}
 
 	public String getNome() {
@@ -145,14 +140,6 @@ public class Estacionamento {
 		this.qtd_motos_max = qtd_motos_max;
 	}
 
-	public Integer getQtd_motos_atual() {
-		return qtd_motos_atual;
-	}
-
-	public void setQtd_motos_atual(Integer qtd_motos_atual) {
-		this.qtd_motos_atual = qtd_motos_atual;
-	}
-
 	public Integer getQtd_carros_max() {
 		return qtd_carros_max;
 	}
@@ -161,12 +148,5 @@ public class Estacionamento {
 		this.qtd_carros_max = qtd_carros_max;
 	}
 
-	public Integer getQtd_carros_atual() {
-		return qtd_carros_atual;
-	}
-
-	public void setQtd_carros_atual(Integer qtd_carros_atual) {
-		this.qtd_carros_atual = qtd_carros_atual;
-	} 
 
 }

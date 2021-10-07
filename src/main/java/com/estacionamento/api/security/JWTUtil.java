@@ -15,11 +15,10 @@ public class JWTUtil {
 	@Value("SequenciaSinistraParaAltaSegurançaDeToken")
 	private String secret;
 	
-	@Value("60000 ")
+	@Value("86400000")
 	private Long expiration = (long) (60000 * 30);
 	
 	public String generateToken(String username) {
-		System.out.println("Token sendo gerado");
 		return Jwts.builder()
 				.setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + expiration))

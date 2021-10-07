@@ -23,7 +23,7 @@ public class Veiculo {
 	private Long id;
 	
 	@Column(nullable = false)
-	@NotNull(message = "Cor não pode ser nulo")
+	@NotNull(message = "Marca não pode ser nulo")
 	private String marca;
 	
 	@Column(nullable = false)

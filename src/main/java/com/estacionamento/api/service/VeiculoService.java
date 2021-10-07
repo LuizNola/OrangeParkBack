@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.estacionamento.api.service.veiculo.CadVeiculo;
 import com.estacionamento.api.service.veiculo.DelVeiculo;
 import com.estacionamento.api.service.veiculo.ListVeiculo;
+import com.estacionamento.api.service.veiculo.PutVeiculo;
 
 @Service
 public class VeiculoService {
@@ -15,6 +16,9 @@ public class VeiculoService {
 	
 	@Autowired
 	public CadVeiculo cadVeiculo;
+	
+	@Autowired
+	public PutVeiculo putVeiculo;
 	
 	@Autowired 
 	public DelVeiculo delVeiculo;

@@ -19,6 +19,7 @@ import com.estacionamento.api.exceptions.AuthError;
 import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Estacionamento;
 import com.estacionamento.api.model.dto.EstacionamentoPutDto;
+import com.estacionamento.api.model.dto.GetEstacionamentoDto;
 import com.estacionamento.api.service.EstacionamentoServices;
 
 @RestController
@@ -31,11 +32,12 @@ public class EstacionamentoController {
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void CreateEstacionamento(@Valid @RequestBody Estacionamento estacionamento) throws BussinesError {
+		System.out.println("OLA0");
 		estacionamentoServ.cadEstacionamento.execute(estacionamento);
 	}
 	
 	@GetMapping("/{id}")
-	public Estacionamento ListEstacionamento(@PathVariable Long id) throws AuthError {
+	public GetEstacionamentoDto ListEstacionamento(@PathVariable Long id) throws AuthError {
 		return estacionamentoServ.getEstacionamento.execute(id);
 	}
 	

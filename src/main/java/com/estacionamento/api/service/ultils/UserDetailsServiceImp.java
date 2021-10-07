@@ -26,7 +26,6 @@ public class UserDetailsServiceImp implements UserDetailsService{
 		if(estacionamento.get() == null) {
 			throw new UsernameNotFoundException("Usuario não encontrado");
 		}
-		System.out.println("UserDetailsService: " + estacionamento.get().getId());
 		return new UserSS(estacionamento.get().getId(), estacionamento.get().getCnpj(), estacionamento.get().getSenha(), estacionamento.get().getPerfis());
 	}
 	

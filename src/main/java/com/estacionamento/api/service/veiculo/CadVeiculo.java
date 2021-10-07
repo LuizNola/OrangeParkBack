@@ -8,6 +8,7 @@ import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Estacionamento;
 import com.estacionamento.api.model.PerfilType;
 import com.estacionamento.api.model.Veiculo;
+import com.estacionamento.api.model.VeiculoType;
 import com.estacionamento.api.repository.EstacionamentoRepository;
 import com.estacionamento.api.repository.VeiculoRepository;
 import com.estacionamento.api.security.UserSS;
@@ -15,7 +16,7 @@ import com.estacionamento.api.service.ultils.UserLoginService;
 
 @Service
 public class CadVeiculo {
-	
+	 
 	@Autowired
 	private VeiculoRepository veiculoRep;
 	
@@ -34,27 +35,21 @@ public class CadVeiculo {
 		}
 		
 		Estacionamento estacionamento = estacionamentoRep.getById(id);
-		
 		switch (veiculo.getTipo()) {
 		case Moto:
-			if(estacionamento.getQtd_motos_atual() >= estacionamento.getQtd_motos_max()) {
+			if(veiculoRep.countVeiculosOfEstacionamento(estacionamento.getId(), VeiculoType.Moto) >= estacionamento.getQtd_motos_max()) {
 				throw new BussinesError("Limite atingido");
 			}
-			estacionamento.setQtd_motos_atual(estacionamento.getQtd_motos_atual() + 1);
 		break;
 		
 		case Carro:
-			if(estacionamento.getQtd_carros_atual() >= estacionamento.getQtd_carros_max()) {
+			if(veiculoRep.countVeiculosOfEstacionamento(estacionamento.getId(), VeiculoType.Carro) >= estacionamento.getQtd_carros_max()) {
 				throw new BussinesError("Limite atingido");
 			}
-			estacionamento.setQtd_carros_atual(estacionamento.getQtd_carros_atual() + 1);
 		break;
 		}
 		
-		
-		veiculo.setEstacionamento(estacionamento);	
-		
-		estacionamentoRep.save(estacionamento);
+		veiculo.setEstacionamento(estacionamento);
 		veiculoRep.save(veiculo);
 	}
 }

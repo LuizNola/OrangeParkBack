@@ -1,8 +1,10 @@
 package com.estacionamento.api.service.veiculo;
 
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.estacionamento.api.exceptions.AuthError;
@@ -21,12 +23,12 @@ public class ListVeiculo {
 	@Autowired
 	private UserLoginService userLoginServ;	
 	
-	public List<Veiculo> execute(Long id) throws AuthError{
+	public Page<Veiculo> execute(Long id, Pageable pageable) throws AuthError{
 		UserSS user = userLoginServ.authenticated();
 		if(user == null || !user.hasHole(PerfilType.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthError("Não autorizado");
 		}
 		
-		return veiculoRep.findByEstacionamento(id);
+		return veiculoRep.findByEstacionamento(id, pageable);
 	}
 }
