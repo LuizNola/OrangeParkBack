@@ -19,18 +19,15 @@ public class CadEstacionamento {
 	
 	@Autowired
 	private BCryptPasswordEncoder BCrypt;
-	
 	public void execute(Estacionamento estacionamento) throws BussinesError {
-		System.out.println("OLA1");
+	
 		Optional<Estacionamento> estacionamentoExiste = estacionamentoRep.FindByCnpj(estacionamento.getCnpj());
-		System.out.println("OLA2");
+
 		if(estacionamentoExiste.isPresent()) {
-			System.out.println("OLA3");
+	
 			throw new BussinesError("Esse cnpj já esta cadastrado");
 		} 	
-		System.out.println("OLA4");
 		estacionamento.setSenha(BCrypt.encode(estacionamento.getSenha()));
-		System.out.println("OLA5");
 		estacionamento.addPerfil(PerfilType.CLIENTE);
 		
 		estacionamentoRep.save(estacionamento);
