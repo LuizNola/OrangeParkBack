@@ -4,6 +4,7 @@ Esse e o backend do sistema OrangePark, criado como resolução do desafio propo
 O sistema visa o gerenciamento de um estacionamento de carros e motos. Veja mais detalhes do desafio [aqui](https://github.com/fcamarasantos/backend-test-java)
 
 ### Principais tecs usadas
+
 -SpringBoot 2.5.4
 -SpringSecurity
 -JWT
@@ -18,6 +19,7 @@ Acessando a pasta Docs dentro do projeto vera um arquivo do Insomnia, com todas 
 
 # Requisitos 
 Não tem muito segredo não! Para rodar o projeto basta ter o java 11 instalado, e um arquivo **application.properties** com as seguintes configurações:
+
 `spring.datasource.url=
 spring.datasource.username=
 spring.datasource.password=
