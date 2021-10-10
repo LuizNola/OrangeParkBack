@@ -17,13 +17,13 @@ Acessando a pasta Docs dentro do projeto vera um arquivo do Insomnia, com todas 
 # Requisitos 
 Não tem muito segredo não! Para rodar o projeto basta ter o java 11 instalado, e um arquivo **application.properties** com as seguintes configurações:
 
-`spring.datasource.url=  
-spring.datasource.username=  
-spring.datasource.password=  
-spring.datasource.driver-class-name=  
-spring.jpa.hibernate.ddl-auto=  
-spring.jpa.show-sql=  
-var.config.cors.allowed =  `
+`spring.datasource.url=`  
+`spring.datasource.username=`   
+`spring.datasource.password=`  
+`spring.datasource.driver-class-name=`  
+`spring.jpa.hibernate.ddl-auto=`  
+`spring.jpa.show-sql=`  
+`var.config.cors.allowed =`  
 
 *Temporariamente a um banco de dados exposto dentro do arquivo de configuração que esta no repositorio, porem não vai durar muito tempo ja que e um host gratuito que usei apenas para alguns testes durante o desenvolvimento.
 
