@@ -20,36 +20,55 @@ import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Estacionamento;
 import com.estacionamento.api.model.dto.EstacionamentoPutDto;
 import com.estacionamento.api.model.dto.GetEstacionamentoDto;
-import com.estacionamento.api.service.EstacionamentoServices;
+import com.estacionamento.api.service.estacionamento.CadEstacionamento;
+import com.estacionamento.api.service.estacionamento.DelEstacionamento;
+import com.estacionamento.api.service.estacionamento.GetEstacionamento;
+import com.estacionamento.api.service.estacionamento.PutEstacionamento;
+import com.estacionamento.api.service.ultils.ValidUser;
 
 @RestController
 @RequestMapping("/estacionameto")
 public class EstacionamentoController {
 	
 	@Autowired
-	private EstacionamentoServices estacionamentoServ;
+	private CadEstacionamento cadEstacionamento;
+	
+	@Autowired
+	private GetEstacionamento getEstacionamento;
+	
+	@Autowired
+	private PutEstacionamento putEstacionamento;
+	
+	@Autowired
+	private DelEstacionamento delEstacionamento;
+	
+	@Autowired
+	private ValidUser valideUser;
 	
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void CreateEstacionamento(@Valid @RequestBody Estacionamento estacionamento) throws BussinesError {
-		System.out.println("OLA0");
-		estacionamentoServ.cadEstacionamento.execute(estacionamento);
+		cadEstacionamento.execute(estacionamento);
 	}
+	
 	
 	@GetMapping("/{id}")
 	public GetEstacionamentoDto ListEstacionamento(@PathVariable Long id) throws AuthError {
-		return estacionamentoServ.getEstacionamento.execute(id);
+		valideUser.valid(id);
+		return getEstacionamento.execute(id);
 	}
 	
 	@Transactional
 	@PutMapping("/{id}")
 	public void UpdateEstacionamento(@Valid @RequestBody EstacionamentoPutDto estacionamentoPut, @PathVariable Long id ) throws BussinesError, AuthError {
-		estacionamentoServ.attEstacionamento.execute(estacionamentoPut, id);
+		valideUser.valid(id);
+		putEstacionamento.execute(estacionamentoPut, id);
 	}
 	
 	@DeleteMapping("/{id}")
 	public void DelEstacionamento(@Valid @PathVariable Long id) throws BussinesError, AuthError {
-		estacionamentoServ.deleteEstacionamento.execute(id);
+		valideUser.valid(id);
+		delEstacionamento.execute(id);
 	}
 	
 	

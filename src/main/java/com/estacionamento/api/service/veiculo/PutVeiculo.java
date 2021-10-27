@@ -5,14 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.estacionamento.api.exceptions.AuthError;
 import com.estacionamento.api.exceptions.BussinesError;
-import com.estacionamento.api.model.PerfilType;
 import com.estacionamento.api.model.Veiculo;
 import com.estacionamento.api.model.dto.VeiculoPutDto;
 import com.estacionamento.api.repository.VeiculoRepository;
-import com.estacionamento.api.security.UserSS;
-import com.estacionamento.api.service.ultils.UserLoginService;
 
 @Service
 public class PutVeiculo {
@@ -20,18 +16,9 @@ public class PutVeiculo {
 	@Autowired
 	private VeiculoRepository veiculoRep;
 	
-	@Autowired
-	private UserLoginService userLoginServ;	
-
-	public void execute(Long IdEstacionamento,Long idVeic,VeiculoPutDto veiculoPut) throws BussinesError, AuthError {
+	public void execute(Long idEst,Long idVeic,VeiculoPutDto veiculoPut) throws BussinesError {
 		
-		UserSS user = userLoginServ.authenticated();	
-		if(user == null || !user.hasHole(PerfilType.ADMIN) && !IdEstacionamento.equals(user.getId())) {
-			throw new AuthError("Não autorizado");
-		}
-		
-		
-		Optional<Veiculo> veiculo = veiculoRep.findById(idVeic);
+		Optional<Veiculo> veiculo = veiculoRep.findByEstacionamentoAndId(idEst, idVeic);
 		
 		if(veiculo.isEmpty()) throw new BussinesError("Veiculo Não encontrado");
 			

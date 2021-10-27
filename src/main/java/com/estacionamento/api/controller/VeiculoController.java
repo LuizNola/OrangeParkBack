@@ -26,7 +26,11 @@ import com.estacionamento.api.exceptions.AuthError;
 import com.estacionamento.api.exceptions.BussinesError;
 import com.estacionamento.api.model.Veiculo;
 import com.estacionamento.api.model.dto.VeiculoPutDto;
-import com.estacionamento.api.service.VeiculoService;
+import com.estacionamento.api.service.ultils.ValidUser;
+import com.estacionamento.api.service.veiculo.CadVeiculo;
+import com.estacionamento.api.service.veiculo.DelVeiculo;
+import com.estacionamento.api.service.veiculo.ListVeiculo;
+import com.estacionamento.api.service.veiculo.PutVeiculo;
 
 @RestController
 @RequestMapping("/veiculo")
@@ -34,13 +38,26 @@ import com.estacionamento.api.service.VeiculoService;
 public class VeiculoController  {
 	
 	@Autowired
-	private VeiculoService VeiculoServ;
+	private CadVeiculo cadVeiculo;
+	
+	@Autowired
+	private ListVeiculo listVeiculo;
+	
+	@Autowired
+	private PutVeiculo putVeiculo;
+	
+	@Autowired
+	private DelVeiculo delVeiculo;
+	
+	@Autowired
+	private ValidUser validUser;
 	
 	@Transactional
 	@PostMapping("/{id}") 
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void CreateVeiculo(@Valid @RequestBody Veiculo veiculo, @PathVariable Long id) throws BussinesError, AuthError {
-		VeiculoServ.cadVeiculo.execute(veiculo, id);
+		validUser.valid(id);
+		cadVeiculo.execute(veiculo, id);
 	}
 	
 	@GetMapping("/{id}")
@@ -49,12 +66,14 @@ public class VeiculoController  {
             direction = Sort.Direction.ASC,
             page = 0, 
             size = 10) Pageable pageable) throws AuthError {
-		return VeiculoServ.listVeiculo.execute(id, pageable);
+		validUser.valid(id);
+		return listVeiculo.execute(id, pageable);
 	}
 	
 	@DeleteMapping("/{EstId}/{CarId}")
 	public void DelVeiculo(@Valid @PathVariable Long EstId, @PathVariable Long CarId) throws BussinesError, AuthError {
-		VeiculoServ.delVeiculo.execute(CarId, EstId);
+		validUser.valid(EstId);
+		delVeiculo.execute(CarId, EstId);
 	}
 	
 	@Transactional
@@ -62,7 +81,8 @@ public class VeiculoController  {
 	public void PutVeiculo(@Valid @PathVariable Long EstId, 
 			@PathVariable Long CarId,
 			@Valid @RequestBody VeiculoPutDto veiculoPut) throws BussinesError, AuthError {
-		VeiculoServ.putVeiculo.execute(EstId ,CarId, veiculoPut);
+		validUser.valid(EstId);
+		putVeiculo.execute(EstId ,CarId, veiculoPut);
 	}
 	
 }

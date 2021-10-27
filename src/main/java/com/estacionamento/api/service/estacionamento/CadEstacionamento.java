@@ -17,16 +17,14 @@ public class CadEstacionamento {
 	@Autowired
 	private EstacionamentoRepository estacionamentoRep;
 	
-	@Autowired
+	@Autowired 
 	private BCryptPasswordEncoder BCrypt;
 	public void execute(Estacionamento estacionamento) throws BussinesError {
 	
 		Optional<Estacionamento> estacionamentoExiste = estacionamentoRep.FindByCnpj(estacionamento.getCnpj());
 
-		if(estacionamentoExiste.isPresent()) {
+		if(estacionamentoExiste.isPresent()) throw new BussinesError("CNPJ já esta cadastrado");
 	
-			throw new BussinesError("Esse cnpj já esta cadastrado");
-		} 	
 		estacionamento.setSenha(BCrypt.encode(estacionamento.getSenha()));
 		estacionamento.addPerfil(PerfilType.CLIENTE);
 		
