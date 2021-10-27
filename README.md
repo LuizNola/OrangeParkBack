@@ -9,7 +9,7 @@ O sistema visa o gerenciamento de um estacionamento de carros e motos. Veja mais
 -SpringSecurity  
 -JWT  
 -JPA  
--Junit
+-Junit  
 -Docker
 
 # Rotas
